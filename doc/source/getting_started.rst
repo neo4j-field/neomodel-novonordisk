@@ -183,3 +183,22 @@ Working with relationships::
     # Replace Jim's country relationship with a new one
     jim.country.replace(germany)
 
+Retrieving additional relations
+===============================
+
+To avoid queries multiplication, you have the possibility to retrieve
+additional relations with a single call::
+
+    # The following call will generate one MATCH with traversal per
+    # item in .fetch_relations() call
+    results = Person.nodes.all().fetch_relations('country')
+    for result in results:
+        print(result[0]) # Person
+        print(result[1]) # associated Country
+
+You can also force the use of an ``OPTIONAL MATCH`` statement using
+the following syntax::
+
+    from neomodel.match import Optional
+
+    results = Person.nodes.all().fetch_relations(Optional('country'))

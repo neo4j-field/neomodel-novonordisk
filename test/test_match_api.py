@@ -398,3 +398,13 @@ def test_fetch_relations():
         .all()
     )
     assert result[0][0] is None
+
+    # len() should only consider Suppliers
+    count = len(
+        Supplier.nodes.filter(name='Sainsburys')
+        .fetch_relations('coffees__species')
+        .all()
+    )
+    assert count == 1
+
+    assert tesco in Supplier.nodes.fetch_relations('coffees__species').filter(name='Sainsburys')
